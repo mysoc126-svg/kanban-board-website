@@ -11,8 +11,8 @@
 
 ## Description
 
-Bugs have been fixed. Adding a new task now works. Start and end dates have been added for tasks. Multilingual support has been added
-to make the registration work, you need to uncomment the corresponding lines in the code. or switch to registration.php
+Bugs have been fixed. Adding a new task now works. Start and end dates have been added for tasks. Multilingual support has been added.
+To make the registration work, you need to uncomment the corresponding lines in the code. or switch to registration.php
 
 ## Installation
 
