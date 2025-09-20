@@ -12,7 +12,8 @@
 ## Description
 
 Bugs have been fixed. Adding a new task now works. Start and end dates have been added for tasks. Multilingual support has been added.
-To make the registration work, you need to uncomment the corresponding lines in the code. or switch to registration.php
+To make the registration work, you need to uncomment the corresponding lines in the code. or switch to registration.php.
+An administration function has been added that allows you to view other users' tasks. To enable it, select the Admin (1) option in the database/
 
 ## Installation
 
