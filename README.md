@@ -11,11 +11,7 @@
 
 ## Description
 
-The page has the following features:
-- Sign up and Log In form.
-- Full calendar where it is posible to add, modify and delete events. There are avalable 4 different calendar views (month, week, day and list).
-- Kanban board where it is posible to add, modify and delete both projects and tasks. Every project and task has a title, a description, a priority color, a starts date and an ends date. 
-- "Today" section that shows the events, projects and tasks that start or end today.
+Bugs have been fixed. Adding a new task now works. Start and end dates have been added for tasks. Multilingual support has been added
 
 ## Installation
 
@@ -26,34 +22,6 @@ In the "db" folder you will find the necessary file (kanban.sql) to create the k
 ### MAIN PAGE
 
 ![Home Page](/screenshots/main.jpg "Home Page")
-
-### SIGN-UP FORM
-
-![Sign Up](/screenshots/signup.jpg "Sign Up form")
-
-### LOG-IN FORM
-
-![Log in](/screenshots/login.jpg "Log in form")
-
-### HOME PAGE
-
-![Content](/screenshots/content.jpg "Content Page")
-
-### PROJECTS AND TASKS
-
-![Tasks](/screenshots/tasks.jpg "Tasks and projects")
-
-### CALENDAR
-
-![Calendar](/screenshots/calendar.jpg "Calendar")
-
-![Week](/screenshots/week.jpg "Weekly Calendar")
-
-![List](/screenshots/list.jpg "List of events")
-
-### SUMMARY OF THE DAY
-
-![Today](/screenshots/today.jpg "Summary of the day")
 
 ## Built With
 
