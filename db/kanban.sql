@@ -1,195 +1,154 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
--- https://www.phpmyadmin.net/
+-- version 3.5.1
+-- http://www.phpmyadmin.net
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 20-11-2021 a las 21:40:26
--- Versión del servidor: 10.3.16-MariaDB
--- Versión de PHP: 7.3.6
+-- Хост: 127.0.0.1
+-- Время создания: Сен 20 2025 г., 05:03
+-- Версия сервера: 5.5.25
+-- Версия PHP: 5.3.13
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 
 --
--- Base de datos: `kanban`
+-- База данных: `kanban`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `calendar`
+-- Структура таблицы `calendar`
 --
 
-CREATE TABLE `calendar` (
-  `id_event` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `calendar` (
+  `id_event` int(11) NOT NULL AUTO_INCREMENT,
   `id_user` int(11) DEFAULT NULL,
   `title` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
   `colour` varchar(7) CHARACTER SET utf8 DEFAULT NULL,
   `start_date` datetime NOT NULL,
-  `end_date` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `end_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`id_event`),
+  KEY `id_user` (`id_user`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=34 ;
 
+--
+-- Дамп данных таблицы `calendar`
+--
+
+INSERT INTO `calendar` (`id_event`, `id_user`, `title`, `description`, `colour`, `start_date`, `end_date`) VALUES
+(7, 17, 'ДР брата', '', '#5cb85c', '2025-09-20 00:00:00', '2025-09-21 00:00:00'),
+(8, 17, 'Бассейн', '', '#0275d8', '2025-09-17 18:30:00', '2025-09-18 00:00:00'),
+(9, 17, 'Бассейн', '', '#0275d8', '2025-09-19 18:30:00', '2025-09-20 00:00:00'),
+(10, 17, 'Бассейн', '', '#0275d8', '2025-09-24 18:30:00', '2025-09-25 00:00:00'),
+(11, 17, 'Работа', '', '#d9534f', '2025-09-18 09:00:00', '2025-09-19 22:00:00'),
+(12, 17, 'Бассейн', '', '#0275d8', '2025-09-26 18:30:00', '2025-09-27 00:00:00'),
+(13, 17, 'Бассейн', '', '#0275d8', '2025-09-22 18:30:00', '2025-09-23 00:00:00'),
+(14, 17, 'Реппетитор', '', '#5cb85c', '2025-09-23 18:50:00', '2025-09-24 00:00:00'),
+(15, 17, 'Реппетитор', '', '#5cb85c', '2025-09-25 18:50:00', '2025-09-26 00:00:00'),
+(16, 17, 'Реппетитор', '', '#5cb85c', '2025-09-30 18:50:00', '2025-10-01 00:00:00'),
+(17, 17, 'Реппетитор', '', '#5cb85c', '2025-10-02 18:50:00', '2025-10-03 00:00:00'),
+(18, 17, 'Бассейн', '', '#0275d8', '2025-09-29 18:30:00', '2025-09-30 00:00:00'),
+(19, 17, 'Бассейн', '', '#0275d8', '2025-10-01 18:30:00', '2025-10-02 00:00:00'),
+(20, 17, 'Бассейн', '', '#0275d8', '2025-10-03 18:30:00', '2025-10-04 00:00:00'),
+(21, 17, 'Реппетитор', '', '#5cb85c', '2025-09-18 18:50:00', '2025-09-19 00:00:00'),
+(33, 17, 'Мой юбилей 35 лет', '', '#5cb85c', '2025-11-22 00:00:00', '2025-11-23 00:00:00');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `projects`
+-- Структура таблицы `projects`
 --
 
-CREATE TABLE `projects` (
-  `id_project` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `projects` (
+  `id_project` int(11) NOT NULL AUTO_INCREMENT,
   `id_user` int(11) NOT NULL,
   `project_name` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
   `project_description` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `project_colour` varchar(7) COLLATE utf8mb4_unicode_ci NOT NULL,
   `start_date` date NOT NULL,
-  `end_date` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `end_date` date NOT NULL,
+  PRIMARY KEY (`id_project`),
+  KEY `id_user` (`id_user`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=2 ;
 
 --
--- Volcado de datos para la tabla `projects`
+-- Дамп данных таблицы `projects`
 --
 
 INSERT INTO `projects` (`id_project`, `id_user`, `project_name`, `project_description`, `project_colour`, `start_date`, `end_date`) VALUES
-(142, 1, 'Project #1 long title', 'This is an example of a project with a short description.', '#0275d8', '2021-09-01', '2021-11-30'),
-(143, 1, 'Project #2', 'Another project example.', '#5bc0de', '2021-11-19', '2021-11-20'),
-(144, 1, 'Project #3', 'LONG DESCRIPTION: \r\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vitae erat at nisi porttitor rutrum nec sed tellus. Proin vel dictum leo. Interdum et malesuada fames ac ante ipsum primis in faucibus. Interdum et malesuada fames ac ant', '#5cb85c', '2021-11-20', '2021-12-31'),
-(145, 1, 'Max of chraracters per field', 'The aximum of chraracters allowed for the title are 30.\r\nThe aximum of chraracters allowed for the title are 225.\r\n', '#f0ad4e', '2021-11-20', '2022-01-31'),
-(146, 1, 'Project colours available', 'The colours available for the projects are the following ones: \r\n- blue, \r\n-tile, \r\n- green, \r\n- orange, \r\n- red \r\n- black. \r\n\r\nIn case of leaving the space empty, the automatic color chosen will be white.', '#d9534f', '2021-09-01', '2021-11-20'),
-(147, 1, 'Project fields', 'Project name, start date and end date are needed in order to create a project. On the other side description and colour are not mandatory. ', '#292b2c', '2021-11-19', '2021-11-21'),
-(148, 1, 'Project dates', 'The end date must be after the start date. Both dates are needed.', '', '2021-11-20', '2021-11-30'),
-(149, 1, 'Project without description', '', '#0275d8', '2021-11-22', '2021-11-24');
+(1, 17, 'Канбан доска', 'Разработка канбан доски', '#5cb85c', '2025-09-14', '2025-09-20');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tasks`
+-- Структура таблицы `tasks`
 --
 
-CREATE TABLE `tasks` (
-  `id_task` int(11) NOT NULL,
-  `id_user` int(11) DEFAULT NULL,
+CREATE TABLE IF NOT EXISTS `tasks` (
+  `id_user` int(11) NOT NULL,
+  `id_task` int(11) NOT NULL AUTO_INCREMENT,
   `id_project` int(11) DEFAULT NULL,
   `task_status` int(1) NOT NULL,
   `task_name` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
   `task_description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `task_colour` varchar(7) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `deadline` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `deadline` date NOT NULL,
+  `start_date` date NOT NULL,
+  `end_date` date NOT NULL,
+  PRIMARY KEY (`id_task`),
+  KEY `tasks_id_project` (`id_project`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=57 ;
 
 --
--- Volcado de datos para la tabla `tasks`
+-- Дамп данных таблицы `tasks`
 --
 
-INSERT INTO `tasks` (`id_task`, `id_user`, `id_project`, `task_status`, `task_name`, `task_description`, `task_colour`, `deadline`) VALUES
-(32, 1, 143, 1, 'Task #1', 'An example of a task with description', '#5cb85c', '2021-11-20');
+INSERT INTO `tasks` (`id_user`, `id_task`, `id_project`, `task_status`, `task_name`, `task_description`, `task_colour`, `deadline`, `start_date`, `end_date`) VALUES
+(17, 38, 0, 1, 'Почистить фанкойл', 'Шумит фанкойл на южном входе', '#d9534f', '2025-09-17', '2025-09-17', '0000-00-00'),
+(17, 39, 0, 1, 'Зашить стену', 'Зашить стены в кубе и аптеке, смежную с лавашом.\r\nМатериал:\r\nПенопласт - 12,5 кв.м. \r\nПена', '#5cb85c', '1970-01-01', '2025-09-17', '0000-00-00'),
+(17, 40, 0, 2, 'Замена стекла', 'Заменить стекло на бургере.\r\nСтекло заказано - ожидаем', '#f0ad4e', '1970-01-01', '2025-09-17', '0000-00-00'),
+(17, 41, 0, 1, 'Люк около самбери', 'В районе служебного входа самбери дорожный люк приходит в негодность', '#5cb85c', '1970-01-01', '2025-09-17', '0000-00-00'),
+(17, 42, 0, 3, 'Замок на ЦД', 'Надо найти болт с крепежом для замка внутренней распашной двери на центральном входе', '#5cb85c', '1970-01-01', '2025-09-17', '2025-09-17'),
+(17, 56, 0, 3, 'Замена доводчика', 'Заменить доводчик между бургером и тамбуром', '#d9534f', '2025-09-18', '2025-09-18', '2025-09-18');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `users`
+-- Структура таблицы `users`
 --
 
-CREATE TABLE `users` (
-  `id_user` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `users` (
+  `id_user` int(11) NOT NULL AUTO_INCREMENT,
   `user` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `password` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
---
--- Índices para tablas volcadas
---
+  `password` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `admin` int(11) NOT NULL,
+  PRIMARY KEY (`id_user`),
+  UNIQUE KEY `user` (`user`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=18 ;
 
 --
--- Indices de la tabla `calendar`
+-- Дамп данных таблицы `users`
 --
-ALTER TABLE `calendar`
-  ADD PRIMARY KEY (`id_event`),
-  ADD KEY `id_user` (`id_user`);
+
+INSERT INTO `users` (`id_user`, `user`, `password`, `admin`) VALUES
+(17, 'user', 'b14361404c078ffd549c03db443c3fede2f3e534d73f78f77301ed97d4a436a9fd9db05ee8b325c0ad36438b43fec8510c204fc1c1edb21d0941c00e9e2c1ce2', 1);
 
 --
--- Indices de la tabla `projects`
---
-ALTER TABLE `projects`
-  ADD PRIMARY KEY (`id_project`),
-  ADD KEY `id_user` (`id_user`);
-
---
--- Indices de la tabla `tasks`
---
-ALTER TABLE `tasks`
-  ADD PRIMARY KEY (`id_task`),
-  ADD KEY `tasks_id_user` (`id_user`),
-  ADD KEY `tasks_id_project` (`id_project`);
-
---
--- Indices de la tabla `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id_user`),
-  ADD UNIQUE KEY `user` (`user`);
-
---
--- AUTO_INCREMENT de las tablas volcadas
+-- Ограничения внешнего ключа сохраненных таблиц
 --
 
 --
--- AUTO_INCREMENT de la tabla `calendar`
---
-ALTER TABLE `calendar`
-  MODIFY `id_event` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
-
---
--- AUTO_INCREMENT de la tabla `projects`
---
-ALTER TABLE `projects`
-  MODIFY `id_project` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=150;
-
---
--- AUTO_INCREMENT de la tabla `tasks`
---
-ALTER TABLE `tasks`
-  MODIFY `id_task` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
-
---
--- AUTO_INCREMENT de la tabla `users`
---
-ALTER TABLE `users`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
-
---
--- Restricciones para tablas volcadas
---
-
---
--- Filtros para la tabla `calendar`
+-- Ограничения внешнего ключа таблицы `calendar`
 --
 ALTER TABLE `calendar`
   ADD CONSTRAINT `calendar_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`);
-
---
--- Filtros para la tabla `projects`
---
-ALTER TABLE `projects`
-  ADD CONSTRAINT `projects_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`);
-
---
--- Filtros para la tabla `tasks`
---
-ALTER TABLE `tasks`
-  ADD CONSTRAINT `tasks_id_project` FOREIGN KEY (`id_project`) REFERENCES `projects` (`id_project`),
-  ADD CONSTRAINT `tasks_id_user` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`);
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
