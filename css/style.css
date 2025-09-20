@@ -75,9 +75,31 @@ footer {
 
 /* --------------------- PROJECT CARD ------------------------------ */
 .widget-subheading {
+	width: 100%;
     font-size: 0.75em;
+	margin: 0 auto;
 }
-
+.widget-subheading div {
+	float: left;
+	margin-bottom: 15px;
+}
+.col-1-2 {
+	width: 50%;
+}
+.col-1-2r {
+	width: 50%;
+	text-align: right;
+}
+.col-1-2l {
+	width: 50%;
+	text-align:left;
+	color: black;
+}
+.col-1-2ld {
+	width: 50%;
+	text-align:left;
+	color: red;
+}
 .scroll-area {
 	max-height: 65vh;
     height: auto;

@@ -1,5 +1,6 @@
 <?php
 if (isset($_SESSION['user'])) {
+require '/lang.php';
 ?>	
 	
 <meta charset="UTF-8">
@@ -16,7 +17,6 @@ if (isset($_SESSION['user'])) {
 <!-- CSS STYLE-->
 <link rel="stylesheet" href="css/style.css">
 <title><?php $title ?></title>
-
 <?php 
 } else {
 	header('Location: main.php');

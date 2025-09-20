@@ -18,7 +18,7 @@
 <!-- CSS STYLE-->
 <link rel="stylesheet" href="css/style.css">
 <title><?php $title ?></title>
-	
+	<?php require '/lang.php';?>
 </head>
 
 
@@ -32,13 +32,21 @@
 			<!-- Logo Image -->
 			<img src="img/logo.png" width="45" alt="Kalendar" class="d-inline-block align-middle mr-2">
 			<!-- Logo Text -->
-			<span class="logo_text align-middle">Kanban & Kalendar</span>
+			<span class="logo_text align-middle"><?php echo $l_title;?></span>
 			</a>
 
 			<button type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"><span class="navbar-toggler-icon"></span></button>
 			<div id="navbarSupportedContent" class="collapse navbar-collapse">
 				<ul class="navbar-nav ml-auto">
-					<li><a href="login.php" class="btn text-primary mr-2"></i>Log in</a></li>				
+					<li><a href="login.php" class="btn text-primary mr-2"></i><?php echo $l_enter;?></a></li>	
+						<?php if ($_SESSION["lang"] == 'en'){
+						echo '<li><a class="btn text-primary mr-2" href="change.php?lang=ru">ru</a></li>';
+						} elseif ($_COOKIE["lang"] == 'en'){
+						echo '<li><a class="btn text-primary mr-2" href="change.php?lang=ru">ru</a></li>';
+						} else {
+						echo '<li><a class="btn text-primary mr-2" href="change.php?lang=en">en</a></li>';
+						}
+					?>
 				</ul>
 			</div>
 		</div>
@@ -53,14 +61,14 @@
 			<img class="img-fluid pl-5" src="img/2.jpg" alt="project_management">		
 		</div>	
 		<div class="col-6 p-5 justify-content-center">
-			<p class="text-center h1 fw-bold m-5">SIGN UP</p>
+			<p class="text-center h1 fw-bold m-5"><?php echo $l_registration_form;?></p>
 			<form class="px-5" name="signup" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="POST">
 				<div class="mb-4">					
 					<div class="input-group">
 						<div class="input-group-prepend">
 						<span class="btn-sign-up text-light input-group-text"> <small><i class="fas fa-user"></i></small></span>
 						</div>					
-						<input class="form-control" type="text" name="user" placeholder="Username" required>
+						<input class="form-control" type="text" name="user" placeholder="<?php echo $l_name_user;?>" required>
 					</div>
 				</div>
 				<div class="mb-4">					
@@ -68,7 +76,7 @@
 						<div class="input-group-prepend">
 						<span class="btn-sign-up text-light input-group-text"> <small><i class="fas fa-lock"></i></small></span>
 						</div>					
-						<input class="form-control" type="password" name="password" placeholder="Password" required>
+						<input class="form-control" type="password" name="password" placeholder="<?php echo $l_pass;?>" required>
 					</div>
 				</div>
 				<div class="mb-4">					
@@ -76,12 +84,12 @@
 						<div class="input-group-prepend">
 						<span class="btn-sign-up text-light input-group-text"> <small><i class="fas fa-key"></i></small></span>
 						</div>					
-						<input class="form-control" type="password" name="password2" placeholder="Confirm password" required>
+						<input class="form-control" type="password" name="password2" placeholder="<?php echo $l_pass_conf;?>" required>
 					</div>
 				</div>
 
 				<div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-				<button type="button" class="btn btn-primary" onclick="signup.submit()">Register</button>
+				<button type="button" class="btn btn-primary" onclick="signup.submit()"><?php echo $l_registration_button;?></button>
 				</div>
 
 				<?php if(!empty($errors)): ?>
@@ -92,7 +100,7 @@
 					</div>
 				<?php endif; ?>
 			</form>
-			<span class="d-flex justify-content-center">Already have an account?<a class="nav-link text-primary m-0 p-0 pl-2" href="login.php">Log in</a></span>			
+			<span class="d-flex justify-content-center"><?php echo $l_have_account;?>?<a class="nav-link text-primary m-0 p-0 pl-2" href="login.php"><?php echo $l_enter;?></a></span>			
 		</div>
 
 	</div>
@@ -106,7 +114,7 @@
 				<ul class="list-unstyled list-inline text-center d-flex justify-content-center align-items-center">				
 					<li class="list-inline-item"><a class="btn btn-dark text-light rounded-circle" href="https://github.com/carogaltier"><span class="fab fa-github"></span></a></li>
 					<li class="list-inline-item"><a class="btn btn-dark text-light rounded-circle" href="https://www.linkedin.com/in/carogaltier/"><span class="fab fa-linkedin-in"></span></a></li> 
-					<small><span class="ml-2">Kanban & Kalendar © 2021 All Rights Reserved. Created by<a class="nav-link d-inline-block text-primary pl-1" href="https://github.com/carogaltier">Carolina Galtier</a></span></small>               
+					<small><span class="ml-2">Kanban & Kalendar © 2021 All Rights Reserved. Created by<a class="nav-link d-inline-block text-primary pl-1" href="/">Meridian</a></span></small>               
 				</ul>
 			</div>
 		</div>

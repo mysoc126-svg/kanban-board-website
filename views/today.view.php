@@ -19,14 +19,22 @@
 			<!-- Logo Image -->
 			<img src="img/logo.png" width="45" alt="Kalendar" class="d-inline-block align-middle mr-2">
 			<!-- Logo Text -->
-			<span class="logo_text align-middle">Kanban & Kalendar</span>
+			<span class="logo_text align-middle"><?php echo $l_title;?></span>
 			</a>
             
 			<button type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"><span class="navbar-toggler-icon"></span></button>
 			<div id="navbarSupportedContent" class="collapse navbar-collapse">
 				<ul class="navbar-nav ml-auto">
-                    <li><a href="content.php" class="btn text-primary mr-2"><i class="fas fa-home pr-2"></i>Home</a></li>	
-					<li><a href="logout.php" class="btn text-primary mr-2">Log out</a></li>				
+                    <li><a href="content.php" class="btn text-primary mr-2"><i class="fas fa-home pr-2"></i><?php echo $l_home;?></a></li>	
+					<li><a href="logout.php" class="btn text-primary mr-2"><?php echo $l_exit;?></a></li>
+					<?php if ($_SESSION["lang"] == 'en'){
+						echo '<li><a class="btn text-primary mr-2" href="change.php?lang=ru">ru</a></li>';
+						} elseif ($_COOKIE["lang"] == 'en'){
+						echo '<li><a class="btn text-primary mr-2" href="change.php?lang=ru">ru</a></li>';
+						} else {
+						echo '<li><a class="btn text-primary mr-2" href="change.php?lang=en">en</a></li>';
+						}
+					?>
 				</ul>
 			</div>
 		</div>
@@ -34,14 +42,14 @@
 </header>
 
 <div class="row d-flex m-4 mt-2 justify-content-center">
-   <h2 class="col-12 text-center mb-4 text-primary">HAPPENING TODAY</h2>
+   <h2 class="col-12 text-center mb-4 text-primary"><?php echo $l_happy;?></h2>
 
     <div class="col-3">
 
         <!-- ---------------------------------  EVENTS STARTING TODAY --------------------------------- -->
         <div class="card-hover-shadow-2x mb-3 card text-dark">
             <div class="card-header-tab card-header">
-                <h5 class="card-header-title font-weight-normal"><i class="fa fa-suitcase mr-3"></i>STARTING EVENTS</h5>
+                <h5 class="card-header-title font-weight-normal"><i class="fa fa-suitcase mr-3"></i><?php echo $l_starting_events;?></h5>
             </div>
             <div class="scroll-area">
                 <perfect-scrollbar class="ps-show-limits">
@@ -59,8 +67,8 @@
                                             <div class="widget-content-wrapper">                                                                                                   
                                                 <div class="widget-content-left">
                                                     <div class="text-left widget-heading text-primary"><?php echo $es['title'];?></div>
-                                                    <div class="widget-subheading text-muted"><i>Start: <?php echo $es['start_date'];?></i></div>
-                                                    <div class="widget-subheading text-muted"><i>End: <?php echo $es['end_date'];?></i></div>
+                                                    <div class="widget-subheading text-muted"><i><?php echo $l_start_date;?>:<?php echo $es['start_date'];?></i></div>
+                                                    <div class="widget-subheading text-muted"><i><?php echo $l_end_date;?>:<?php echo $es['end_date'];?></i></div>
                                                 </div>  
                                             </div>
                                         </div>                                    
@@ -77,7 +85,7 @@
         <!-- ---------------------------------  EVENTS ENDING TODAY --------------------------------- -->
         <div class="card-hover-shadow-2x mb-3 card text-dark">
             <div class="card-header-tab card-header">
-                <h5 class="card-header-title font-weight-normal"><i class="fa fa-suitcase mr-3"></i>ENDING EVENTS</h5>
+                <h5 class="card-header-title font-weight-normal"><i class="fa fa-suitcase mr-3"></i><?php echo $l_ending_events;?></h5>
             </div>
             <div class="scroll-area">
                 <perfect-scrollbar class="ps-show-limits">
@@ -95,8 +103,8 @@
                                             <div class="widget-content-wrapper">                                                                                                   
                                                 <div class="widget-content-left">
                                                     <div class="text-left widget-heading text-primary"><?php echo $ee['title'];?></div>
-                                                    <div class="widget-subheading text-muted"><i>Start: <?php echo $ee['start_date'];?></i></div>
-                                                    <div class="widget-subheading text-muted"><i>End: <?php echo $ee['end_date'];?></i></div>
+                                                    <div class="widget-subheading text-muted"><i><?php echo $l_start_date;?>:<?php echo $ee['start_date'];?></i></div>
+                                                    <div class="widget-subheading text-muted"><i><?php echo $l_end_date;?>:<?php echo $ee['end_date'];?></i></div>
                                                 </div>  
                                             </div>
                                         </div>                                    
@@ -117,7 +125,7 @@
         <!-- ---------------------------------  PROJECTS STARTING TODAY --------------------------------- -->
         <div class="card-hover-shadow-2x mb-3 card text-dark">
             <div class="card-header-tab card-header">
-                <h5 class="card-header-title font-weight-normal"><i class="fa fa-suitcase mr-3"></i>STARTING PROJECTS</h5>
+                <h5 class="card-header-title font-weight-normal"><i class="fa fa-suitcase mr-3"></i><?php echo $l_starting_projects;?></h5>
             </div>
             <div class="scroll-area">
                 <perfect-scrollbar class="ps-show-limits">
@@ -134,8 +142,8 @@
                                         <div class="widget-content p-0 ml-4">
                                             <div class="widget-content-wrapper">                                                                                                   
                                                 <div class="widget-content-left">
-                                                    <div class="text-left widget-heading text-primary"><?php echo $ps['project_name'];?></div>
-                                                    <div class="widget-subheading text-muted"><i>Start: <?php echo $ps['start_date'];?> | End: <?php echo $ps['end_date'];?></i></div>
+                                                    <div class="text-left widget-heading text-primary"><?php echo $ps['project_name'];?> </div>
+                                                    <div class="widget-subheading text-muted"><i><?php echo $l_start_date;?> <?php echo $ps['start_date'];?> | Конец: <?php echo $ps['end_date'];?></i></div>
                                                 </div>  
                                             </div>
                                         </div>                                    
@@ -152,7 +160,7 @@
        <!-- ---------------------------------  PROJECTS ENDING TODAY --------------------------------- -->
         <div class="card-hover-shadow-2x mb-3 card text-dark">
             <div class="card-header-tab card-header">
-                <h5 class="card-header-title font-weight-normal"><i class="fa fa-suitcase mr-3"></i>ENDING PROJECTS</h5>
+                <h5 class="card-header-title font-weight-normal"><i class="fa fa-suitcase mr-3"></i><?php echo $l_ending_projects;?></h5>
             </div>
             <div class="scroll-area">
                 <perfect-scrollbar class="ps-show-limits">
@@ -169,8 +177,8 @@
                                         <div class="widget-content p-0 ml-4">
                                             <div class="widget-content-wrapper">                                                                                                   
                                                 <div class="widget-content-left">
-                                                    <div class="text-left widget-heading text-primary"><?php echo $pe['project_name'];?></div>
-                                                    <div class="widget-subheading text-muted"><i>Start: <?php echo $pe['start_date'];?> | End: <?php echo $pe['end_date'];?></i></div>
+                                                    <div class="text-left widget-heading text-primary"><?php echo $pe['project_name'];?> </div>
+                                                    <div class="widget-subheading text-muted"><i><?php echo $l_start_date;?>:<?php echo $pe['start_date'];?> | <?php echo $l_end_date;?>:<?php echo $pe['end_date'];?></i></div>
                                                 </div>  
                                             </div>
                                         </div>                                    
@@ -189,7 +197,7 @@
         <!-- ---------------------------------  TASKS DEADLINE TODAY --------------------------------- -->
         <div class="card-hover-shadow-2x mb-3 card text-dark">
             <div class="card-header-tab card-header">
-                <h5 class="card-header-title font-weight-normal"><i class="fa fa-suitcase mr-3"></i>TASKS DEADLINES</h5>
+                <h5 class="card-header-title font-weight-normal"><i class="fa fa-suitcase mr-3"></i><?php echo $l_tasks_deadlines;?></h5>
             </div>
             <div class="scroll-area">
                 <perfect-scrollbar class="ps-show-limits">
@@ -207,7 +215,41 @@
                                             <div class="widget-content-wrapper">                                                                                                   
                                                 <div class="widget-content-left">
                                                     <div class="text-left widget-heading text-primary"><?php echo $t['task_name'];?></div>
-                                                    <div class="widget-subheading text-muted"><i>Deadline: <?php echo $t['deadline'];?></i></div>
+                                                    <div class="widget-subheading text-muted"><i><?php echo $l_deadline;?>:<?php echo $t['deadline'];?></i></div>
+                                                </div>  
+                                            </div>
+                                        </div>                                    
+                                    </li>                                
+                                <?php 
+                                endforeach; }  ?>
+                            </ul>
+                        </div>
+                    </div>
+                </perfect-scrollbar>
+            </div>
+        </div>
+		<!-- ---------------------------------  TASKS DEADLINE ВЧЕРА --------------------------------- -->
+        <div class="card-hover-shadow-2x mb-3 card text-dark">
+            <div class="card-header-tab card-header">
+                <h5 class="card-header-title font-weight-normal"><i class="fa fa-suitcase mr-3"></i><?php echo $l_overdue;?></h5>
+            </div>
+            <div class="scroll-area">
+                <perfect-scrollbar class="ps-show-limits">
+                    <div style="position: static;" class="ps ps--active-y">
+                        <div class="ps-content">
+                            <ul class=" list-group list-group-flush">
+                                
+                                <?php if (isset($tasksOld)) {	                                   
+                                    foreach ($tasksOld as $t): 
+                                    ?>                         
+                                    <li class="list-group-item pe-auto">        
+                                        <div class="todo-indicator ml-2" style="background-color:<?php echo $t['task_colour'];?>;">
+                                        </div>
+                                        <div class="widget-content p-0 ml-4">
+                                            <div class="widget-content-wrapper">                                                                                                   
+                                                <div class="widget-content-left">
+                                                    <div class="text-left widget-heading text-primary"><?php echo $t['task_name'];?></div>
+                                                    <div class="widget-subheading text-muted"><i><?php echo $l_deadline;?>:<?php echo $t['deadline'];?></i></div>
                                                 </div>  
                                             </div>
                                         </div>                                    

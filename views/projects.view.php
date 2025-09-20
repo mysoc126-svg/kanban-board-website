@@ -19,14 +19,33 @@
 			<!-- Logo Image -->
 			<img src="img/logo.png" width="45" alt="Kalendar" class="d-inline-block align-middle mr-2">
 			<!-- Logo Text -->
-			<span class="logo_text align-middle">Kanban & Kalendar</span>
+			<span class="logo_text align-middle"><?php echo $l_title;?></span>
 			</a>
-            
+			
+			
+			<?php if ($adm == 1) { ?>
+			<form method="GET" action="/projects.php">
+			<input type="text" name="idUser" id="idUser" placeholder="<?php echo $l_enter_ID;?>">
+			<input type="Submit" value="<?php echo $_check;?>">
+			</form>
+			<form method="GET" action="/projects.php" style="margin-left: 4px;">
+			<input type="Submit" value="<?php echo $l_throw_off;?>">
+			</form>
+			<?php } ?>
+			
 			<button type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"><span class="navbar-toggler-icon"></span></button>
 			<div id="navbarSupportedContent" class="collapse navbar-collapse">
 				<ul class="navbar-nav ml-auto">
-                    <li><a href="content.php" class="btn text-primary mr-2"><i class="fas fa-home pr-2"></i>Home</a></li>	
-					<li><a href="logout.php" class="btn text-primary mr-2">Log out</a></li>				
+                    <li><a href="content.php" class="btn text-primary mr-2"><i class="fas fa-home pr-2"></i><?php echo $l_home; ?></a></li>	
+					<li><a href="logout.php" class="btn text-primary mr-2"><?php echo $l_exit; ?></a></li>
+					<?php if ($_SESSION["lang"] == 'en'){
+						echo '<li><a class="btn text-primary mr-2" href="change.php?lang=ru">ru</a></li>';
+						} elseif ($_COOKIE["lang"] == 'en'){
+						echo '<li><a class="btn text-primary mr-2" href="change.php?lang=ru">ru</a></li>';
+						} else {
+						echo '<li><a class="btn text-primary mr-2" href="change.php?lang=en">en</a></li>';
+						}
+					?>
 				</ul>
 			</div>
 		</div>
@@ -39,7 +58,7 @@
     <div class="col-3 p-0 pl-3 pr-1">
         <div class="card-hover-shadow-2x mb-3 card text-dark">
             <div class="card-header-tab card-header d-flex flex-nowrap justify-content-between">
-                <h4 class="card-header-title font-weight-normal"><i class="fa fa-suitcase mr-3"></i><?php echo strtoupper($_SESSION['user']);?>'S PROJECTS</h4>
+                <h4 class="card-header-title font-weight-normal"><i class="fa fa-suitcase mr-3"></i><?php echo strtoupper($_SESSION['user']);?>'S <?php echo $l_projects; ?></h4>
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#project-modal">+</button>
             </div>
             <div class="scroll-area">
@@ -63,9 +82,10 @@
                                                         <div class="widget-content-left">
                                                             <div class="text-left widget-heading text-primary">
                                                                 <?php echo $p['project_name'];?>                                                                
-                                                            </div>                                                            
-                                                            <div class="widget-subheading text-muted"><i>Start: <?php echo $p['start_date'];?></i></div>
-                                                            <div class="widget-subheading text-muted"><i>End: <?php echo $p['end_date'];?></i></div>                                                       
+                                                            </div>   
+															<div class="widget-subheading text-muted"><i>ID: <?php echo $p['id_project'];?></i></div>															
+                                                            <div class="widget-subheading text-muted"><i><?php echo $l_start_date;?>:<?php echo $p['start_date'];?></i></div>
+                                                            <div class="widget-subheading text-muted"><i><?php echo $l_end_date;?>:<?php echo $p['end_date'];?></i></div>                                                       
                                                            
                                                         </div>
                                                     </button>
@@ -106,9 +126,9 @@
     <div class="col-9 p-0 pr-3 pl-1">
         <div class="card-hover-shadow-2x mb-3 card text-dark">
             <div class="card-header-tab card-header d-flex justify-content-between">
-                <h4 class="card-header-title font-weight-normal"><i class="fas fa-clipboard-list pr-3"></i>TASKS</h4>
-                <?php if (isset($show_tasks)) { 
-                    echo"<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#new-task-modal'>New task</button>";
+                <h4 class="card-header-title font-weight-normal"><i class="fas fa-clipboard-list pr-3"></i><?php echo $l_task_board;?></h4>
+ 				<?php if (isset($show_tasks)) { 
+                    echo"<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#new-task-modal'>".$l_add."</button>";
                     require 'events/modals/newTask.php';} ?>
             </div>
             <div class="scroll-area">
@@ -119,7 +139,7 @@
                                 <div class="col-4">
                                     <div class="card-hover-shadow-2x mb-3 card text-dark">
                                         <div class="card-header-tab card-header">
-                                            <h5 class="card-header-title font-weight-normal"><i class="fas fa-list mr-3"></i>TO DO</h5>                                            
+                                            <h5 class="card-header-title font-weight-normal"><i class="fas fa-list mr-3"></i><?php echo $l_list;?></h5>                                            
                                         </div>
                                         <div class="scroll-area-sm">
                                             <perfect-scrollbar class="ps-show-limits">
@@ -144,15 +164,12 @@
                                                                                     <span class="accicon"><i class="fa fa-angle-down rotate-icon pl-2"></i></span>
                                                                                 </div>                                                                                  
                                                                                 <div  id="collapse-todo-<?php echo $i; ?>" class="collapse" data-parent="#task-todo-<?php echo $i; ?>">  
-                                                                                    <div class="widget-subheading text-muted"><i> <?php if( $s['deadline'] !== '1970-01-01'){
-                                                                                                                                                echo "Deadline:";
-                                                                                                                                                echo $s['deadline'];} ?></i></div>  
                                                                                     <p class="font-small text-dark pt-1"><?php echo $s['task_description'];?></p>                                                                                                                                                                                                                   
                                                                                 </div>
                                                                             </div>
                                                                         </a>
                                                                         <div class="widget-content-right ml-auto"> 
-                                                                            <button type="button" class="border-0 btn-transition btn btn-outline-success" data-toggle="modal" data-target="#task-edit-<?php echo $i; ?>"> <i class="fas fa-pencil-alt"></i></button> 
+						                                                <button type="button" class="border-0 btn-transition btn btn-outline-success" data-toggle="modal" data-target="#task-edit-<?php echo $i; ?>"> <i class="fas fa-pencil-alt"></i></button> 
                                                                         <?php  require 'events/modals/editTask.php' ?>    
                                                                             <button type="button" class="border-0 btn-transition btn btn-outline-danger" data-toggle="modal" data-target="#task-delete-<?php echo $i; ?>"> <i class="fas fa-trash-alt"></i> </button> 
                                                                         <?php  require 'events/modals/delTask.php' ?>
@@ -167,7 +184,26 @@
                                                                         <input hidden name="id_project_right" value=<?php echo $s['id_project']; ?> >                                          
                                                                         <button type="submit" class="border-0 btn-transition btn btn-outline-primary"> <i class="fa fa-arrow-right"></i></button>
                                                                     </form>     
-                                                                </div>                                    
+                                                                </div>   
+																<div class="widget-subheading text-muted">
+																<div class="col-1-2"><i>
+																	<?php if( $s['start_date'] !== '0000-00-00'){
+                                                                    echo '<div class="col-1-2r">'.$l_generated.':</div>';
+																	echo '<div class="col-1-2l">'.$s['start_date'].'</div>';
+                                                                    } else {
+																	echo '<div class="col-1-2r">'.$l_generated.':</div>' ;
+																	echo '<div class="col-1-2l">'.$l_not_specified.'</div>';
+																	}?>
+																</i></div>
+																<div class="col-1-2"><i>
+																	<?php if( $s['deadline'] !== '1970-01-01'){
+                                                                    echo '<div class="col-1-2r">'.$l_term.':</div>';
+                                                                    echo '<div class="col-1-2ld">'.$s['deadline'].'</div>';}
+																	else {
+																	echo '<div class="col-1-2r">'.$l_term.':</div>';
+																	echo '<div class="col-1-2l">'.$l_not_specified.'</div>';
+																	}?>
+																</i></div> </div>																
                                                             </li>
 
                                                             <?php $i++; }
@@ -182,7 +218,7 @@
                                 <div class="col-4">
                                     <div class="card-hover-shadow-2x mb-3 card text-dark">
                                         <div class="card-header-tab card-header d-flex justify-content-between">
-                                            <h5 class="card-header-title font-weight-normal"><i class="fas fa-cogs mr-3"></i>IN PROGRESS</h5>                                            
+                                            <h5 class="card-header-title font-weight-normal"><i class="fas fa-cogs mr-3"></i><?php echo $l_in_work;?></h5>                                            
                                         </div>
                                         <div class="scroll-area-sm">
                                             <perfect-scrollbar class="ps-show-limits">
@@ -208,9 +244,6 @@
                                                                                     <span class="accicon"><i class="fa fa-angle-down rotate-icon pl-2"></i></span>
                                                                                 </div>                                                                                  
                                                                                 <div  id="collapse-ip-<?php echo $i; ?>" class="collapse" data-parent="#task-ip-<?php echo $i; ?>">  
-                                                                                    <div class="widget-subheading text-muted"><i><?php if( $s['deadline'] !== '1970-01-01'){
-                                                                                                                                                echo "Deadline:";
-                                                                                                                                                echo $s['deadline'];} ?></i></div>  
                                                                                     <p class="font-small text-dark pt-1"><?php echo $s['task_description'];?></p>                                                                                                                                                                                                                   
                                                                                 </div>
                                                                             </div>
@@ -236,7 +269,26 @@
                                                                         <input hidden name="id_project_right" value=<?php echo $s['id_project']; ?> >                                          
                                                                         <button type="submit" class="border-0 btn-transition btn btn-outline-primary"> <i class="fa fa-arrow-right"></i></button>
                                                                     </form>       
-                                                                </div>                                     
+                                                                </div> 
+																<div class="widget-subheading text-muted">
+																<div class="col-1-2"><i>
+																	<?php if( $s['start_date'] !== '0000-00-00'){
+                                                                    echo '<div class="col-1-2r">'.$l_generated.':</div>';
+																	echo '<div class="col-1-2l">'.$s['start_date'].'</div>';
+                                                                    } else {
+																	echo '<div class="col-1-2r">'.$l_generated.':</div>';
+																	echo '<div class="col-1-2l">'.$l_not_specified.'</div>';
+																	}?>
+																</i></div>
+																<div class="col-1-2"><i>
+																	<?php if( $s['deadline'] !== '1970-01-01'){
+                                                                    echo '<div class="col-1-2r">'.$l_term.':</div>';
+                                                                    echo '<div class="col-1-2ld">'.$s['deadline'].'</div>';}
+																	else {
+																	echo '<div class="col-1-2r">'.$l_term.':</div>';
+																	echo '<div class="col-1-2l">'.$l_not_specified.'</div>';
+																	}?>
+																</i></div> </div>																	
                                                             </li>
 
                                                             <?php $i++; }
@@ -251,7 +303,7 @@
                                 <div class="col-4">
                                     <div class="card-hover-shadow-2x mb-3 card text-dark">
                                         <div class="card-header-tab card-header d-flex justify-content-between">
-                                            <h5 class="card-header-title font-weight-normal"><i class="fas fa-check mr-3"></i>COMPLETE</h5>                                            
+                                            <h5 class="card-header-title font-weight-normal"><i class="fas fa-check mr-3"></i><?php echo $l_completed;?></h5>                                            
                                         </div>
                                         <div class="scroll-area-sm">
                                             <perfect-scrollbar class="ps-show-limits">
@@ -276,9 +328,6 @@
                                                                                     <span class="accicon"><i class="fa fa-angle-down rotate-icon pl-2"></i></span>
                                                                                 </div>                                                                                  
                                                                                 <div  id="collapse-c-<?php echo $i; ?>" class="collapse" data-parent="#task-c-<?php echo $i; ?>">  
-                                                                                    <div class="widget-subheading text-muted"><i><?php if( $s['deadline'] !== '1970-01-01'){
-                                                                                                                                                echo "Deadline:";
-                                                                                                                                                echo $s['deadline'];} ?></i></div>  
                                                                                     <p class="font-small text-dark pt-1"><?php echo $s['task_description'];?></p>                                                                                                                                                                                                                   
                                                                                 </div>
                                                                             </div>
@@ -299,8 +348,24 @@
                                                                         <button type="submit" class="border-0 btn-transition btn btn-outline-primary"> <i class="fa fa-arrow-left"></i></button>
                                                                     </form>
                                                                     <button type="submit" class="border-0 btn-transition btn btn-outline-secondary" disabled> <i class="fa fa-arrow-right"></i></button>       
-                                                                </div>                                                                                                    
-                                                            </li>
+                                                                </div> 
+																<div class="widget-subheading text-muted">
+																<div class="col-1-2"><i>
+																	<?php if( $s['start_date'] !== '0000-00-00'){
+                                                                    echo '<div class="col-1-2r">'.$l_generated.':</div>';
+																	echo '<div class="col-1-2l">'.$s['start_date'].'</div>';
+                                                                    } else {
+																	echo '<div class="col-1-2r">'.$l_generated.':</div>';
+																	echo '<div class="col-1-2l">'.$l_not_specified.'</div>';
+																	}?>
+																</i></div>
+																<div class="col-1-2"><i>
+																	<?php if( $s['end_date'] !== '0000-00-00'){
+                                                                    echo '<div class="col-1-2r">'.$l_ended.':</div>';
+																	echo '<div class="col-1-2l">'.$s['end_date'].'</div>';
+                                                                    } ?>
+																</i></div> </div>																
+															</li>
 
                                                             <?php $i++; }
                                                             endforeach; }  ?>

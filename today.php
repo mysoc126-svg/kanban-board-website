@@ -12,6 +12,8 @@ if (isset($_SESSION['user'])) {
 $today = date("Y-m-d");
 $today_start =date("Y-m-d")." 00:00:00";
 $today_end =date("Y-m-d")." 23:59:59";
+$notdate = "1970-01-01";
+
 // -------------------- SHOWING PROJECTS THAT START TODAY-------------------------
 $projects_start = $connection->prepare("SELECT SQL_CALC_FOUND_ROWS * FROM projects WHERE id_user = ? AND start_date= ? ORDER BY id_project DESC") ;			
 $projects_start->execute(array($_SESSION['id_user'], $today));
@@ -33,10 +35,12 @@ $events_end->execute(array($_SESSION['id_user'], $today_start, $today_end));
 $events_end = $events_end->fetchAll();
 
 // -------------------- SHOWING TASK WHICH DEADLINE IS TODAY -------------------------
-$tasks = $connection->prepare("SELECT SQL_CALC_FOUND_ROWS * FROM tasks WHERE id_user = ? AND deadline= ? ORDER BY id_task DESC") ;			
+$tasks = $connection->prepare("SELECT SQL_CALC_FOUND_ROWS * FROM tasks WHERE id_user = ? AND deadline= ? AND task_status NOT IN(3) ORDER BY id_task DESC") ;			
 $tasks->execute(array($_SESSION['id_user'], $today));
 $tasks = $tasks->fetchAll();
-
+$tasksOld = $connection->prepare("SELECT SQL_CALC_FOUND_ROWS * FROM tasks WHERE id_user = ? AND deadline NOT IN(?) AND deadline < CURDATE() AND task_status NOT IN(3) ORDER BY id_task DESC") ;			
+$tasksOld->execute(array($_SESSION['id_user'], $notdate));
+$tasksOld = $tasksOld->fetchAll();
 
 require 'views/today.view.php';
 

@@ -9,28 +9,44 @@ if (isset($_SESSION['user'])) {
 	die();
 }
 
+//-------------------ПРОВЕРКА НА АДМИНА-------------------------
+$adm = $connection->prepare("SELECT admin FROM users WHERE id_user = ?") ;
+$adm->execute(array($_SESSION['id_user']));
+$adm = $adm->fetchAll(PDO::FETCH_COLUMN);
+//var_dump($adm);
+$adm = $adm[0];
 
-// -------------------- SHOWING PROJECTS -------------------------
+
+// -------------------- ЗАГРУЗКА ПРОЕКТОВ -------------------------
 $projects = $connection->prepare("SELECT SQL_CALC_FOUND_ROWS * FROM projects WHERE id_user = ? ORDER BY id_project DESC") ;			
 $projects->execute(array($_SESSION['id_user']));
 $projects = $projects->fetchAll();
 
-
 // -------------------- SHOWING TASKS -------------------------
 if($_SERVER['REQUEST_METHOD'] == 'GET') {
-	if(isset($_GET['idProject'])) {	
-
-		$id_project_for_task = filter_var(htmlspecialchars($_GET['idProject']), FILTER_SANITIZE_STRING);	
-		$id_user = filter_var(htmlspecialchars($_SESSION['id_user']), FILTER_SANITIZE_STRING);
-		$id_user = (int)$id_user; 	
-
+// idUser - это что то вроде сортировки
+// тут isset проверяет наличие переменной в виде ./projects.php?idUser=тут значение
+// в зависимости от значения будет выведен список заданий с этим идентификатором 
+// из колонки id_project таблицы tasks
+	$filter = 0;
+	//if(isset($filter)) {	
+	if(isset($_GET['idUser'])) {	
+		$id_project_for_task = filter_var(htmlspecialchars($filter), FILTER_SANITIZE_STRING);		
+		$id_user = filter_var(htmlspecialchars($_GET['idUser']), FILTER_SANITIZE_STRING);
+		$id_user = (int)$id_user; 
 		$show_tasks = $connection->prepare("SELECT SQL_CALC_FOUND_ROWS * FROM tasks WHERE id_user = ? AND id_project = ? ORDER BY deadline DESC") ;			
 		$show_tasks->execute(array($id_user, $id_project_for_task));
 		$show_tasks = $show_tasks->fetchAll();
-	}	
+	}	else {
+		$id_project_for_task = filter_var(htmlspecialchars($filter), FILTER_SANITIZE_STRING);
+		$id_user = filter_var(htmlspecialchars($_SESSION['id_user']), FILTER_SANITIZE_STRING);
+		$id_user = (int)$id_user; 
+		$show_tasks = $connection->prepare("SELECT SQL_CALC_FOUND_ROWS * FROM tasks WHERE id_user = ? AND id_project = ? ORDER BY deadline DESC") ;			
+		$show_tasks->execute(array($id_user, $id_project_for_task));
+		$show_tasks = $show_tasks->fetchAll();
+	}
 }
 require 'views/projects.view.php';
-
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	
@@ -137,10 +153,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$task_colour = filter_var(htmlspecialchars($_POST['task_colour']), FILTER_SANITIZE_STRING);
 		$deadline= filter_var(htmlspecialchars($_POST['deadline']), FILTER_SANITIZE_STRING); 
 		$deadline= date("Y-m-d", strtotime($deadline));
-
-		$statement = $connection->prepare('INSERT INTO tasks (id_user, id_project, task_status, task_name, task_description, task_colour, deadline) VALUES
-		(?, ?, ?, ?, ?, ?, ?)');
-		$statement->execute(array($id_user, $id_project, $task_status, $task_name, $task_description, $task_colour, $deadline));	
+		//$start_date= filter_var(htmlspecialchars($_POST['start_date']), FILTER_SANITIZE_STRING); 
+		$start_date= date("Y-m-d");
+		//$statement = $connection->prepare('INSERT INTO tasks (id_user, id_project, task_status, task_name, task_description, task_colour, deadline) VALUES (?, ?, ?, ?, ?, ?, ?)');
+		$statement = $connection->prepare('INSERT INTO tasks (id_user, id_project, task_status, task_name, task_description, task_colour, deadline, start_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)');
+		$statement->execute(array($id_user, $id_project, $task_status, $task_name, $task_description, $task_colour, $deadline, $start_date));
+		//$statement->execute(array($id_user, $id_project, $task_status, $task_name, $task_description, $task_colour, $deadline, $start_date, $end_date));	
 		$add_task = $statement->fetch();
 		if (isset($add_task)) {
 			echo '<script language="javascript">';
@@ -152,8 +170,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 				showConfirmButton: false,
 				timer: 1200,
 			}).then(function(){ 
-				location.href = 'projects.php?idProject=";				
-			echo "$id_project'";			
+				location.href = 'projects.php?'";			
 			echo "});";
 			echo '</script>';			
 		}
@@ -176,8 +193,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 				showConfirmButton: false,
 				timer: 1200,
 			}).then(function(){ 
-				location.href = 'projects.php?idProject=";				
-			echo "$id_project'";			
+				location.href = 'projects.php?'";			
 			echo "});";
 			echo '</script>';			
 		} 
@@ -208,8 +224,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 				showConfirmButton: false,
 				timer: 1200,
 			}).then(function(){ 
-				location.href = 'projects.php?idProject=";				
-			echo "$id_project'";			
+				location.href = 'projects.php?'";		
 			echo "});";
 			echo '</script>';
 		} 
@@ -222,7 +237,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$id_task_right = filter_var(htmlspecialchars($_POST['id_task_right']), FILTER_SANITIZE_STRING);
 		$task_status = filter_var(htmlspecialchars($_POST['task_status']), FILTER_SANITIZE_STRING);
 		$new_status = ((int)$task_status + 1);
-				
+		
+		if ($new_status == 2) {
 		$statement = $connection->prepare('UPDATE tasks SET task_status=? WHERE id_task=?');
 		$statement->execute(array($new_status, $id_task_right));	
 		$move_task_right = $statement->fetch();
@@ -235,12 +251,28 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 				title: 'Well Done!',
 				timer: 500,
 			}).then(function(){ 
-				location.href = 'projects.php?idProject=";				
-			echo "$id_project_right'";			
+				location.href = 'projects.php?'";			
 			echo "});";
 			echo '</script>';
 		} 
-
+		} else {
+		$statement = $connection->prepare('UPDATE tasks SET task_status=?, end_date=? WHERE id_task=?');
+		$statement->execute(array($new_status, date("Y-m-d"), $id_task_right));	
+		$move_task_right = $statement->fetch();
+		if (isset($move_task_right)) {
+			echo '<script language="javascript">';
+			echo "Swal.fire({
+				position: 'top-end',
+				icon: 'success',				
+				showConfirmButton: false,
+				title: 'Well Done!',
+				timer: 500,
+			}).then(function(){ 
+				location.href = 'projects.php?'";		
+			echo "});";
+			echo '</script>';
+		} 
+		}
 	}
 
 	// --------------------------- MOVING TASK TO THE LEFT -------------------------------
@@ -249,9 +281,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$id_task_left = filter_var(htmlspecialchars($_POST['id_task_left']), FILTER_SANITIZE_STRING);
 		$task_status = filter_var(htmlspecialchars($_POST['task_status']), FILTER_SANITIZE_STRING);
 		$new_status = ((int)$task_status - 1);
-				
-		$statement = $connection->prepare('UPDATE tasks SET task_status=? WHERE id_task=?');
-		$statement->execute(array($new_status, $id_task_left));	
+		
+		if ($new_status == 2) {
+		$statement = $connection->prepare('UPDATE tasks SET task_status=?, end_date=? WHERE id_task=?');
+		$statement->execute(array($new_status, DELETE, $id_task_left));
 		$move_task_left = $statement->fetch();
 		if (isset($move_task_left)) {
 			echo '<script language="javascript">';
@@ -262,11 +295,28 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 				title: 'Well Done!',
 				timer: 500,
 			}).then(function(){ 
-				location.href = 'projects.php?idProject=";				
-			echo "$id_project_left'";			
+				location.href = 'projects.php?'";		
 			echo "});";
 			echo '</script>';
 		} 
+		} else {
+		$statement = $connection->prepare('UPDATE tasks SET task_status=? WHERE id_task=?');
+		$statement->execute(array($new_status, $id_task_left));		
+		$move_task_left = $statement->fetch();
+		if (isset($move_task_left)) {
+			echo '<script language="javascript">';
+			echo "Swal.fire({
+				position: 'top-end',
+				icon: 'success',				
+				showConfirmButton: false,
+				title: 'Well Done!',
+				timer: 500,
+			}).then(function(){ 
+				location.href = 'projects.php?'";	
+			echo "});";
+			echo '</script>';
+		} 
+		}
 
 	}
 

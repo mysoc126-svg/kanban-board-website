@@ -3,7 +3,7 @@
 	
 <head>
 	<?php $title= "Content"; ?>
-	<?php require 'head.php'; ?>
+	<?php require 'head.php';?>
 </head>
 
 <body class="bg">
@@ -15,18 +15,26 @@
 			<!-- Logo Image -->
 			<img src="img/logo.png" width="45" alt="Kalendar" class="d-inline-block align-middle mr-2">
 			<!-- Logo Text -->
-			<span class="logo_text align-middle">Kanban & Kalendar</span>
+			<span class="logo_text align-middle"><?php echo $l_title;?></span>
 			</a>
             <ul class="navbar-nav ml-auto">
-                <li><span class="btn text-primary mx-2"><i class="far fa-user pr-2"></i>Welcome <?php echo strtoupper($_SESSION['user']);?>!</li>
-                <li><span class="btn text-primary mx-2"><i class="far fa-calendar-alt pr-2"></i>Date:<span class="pl-2 date"></span></li>	
-                <li><span class="btn text-primary mr-2"><i class="far fa-clock pr-2"></i>Time:<span class="pl-2 clock"></span></li>				
+                <li><span class="btn text-primary mx-2"><i class="far fa-user pr-2"></i><?php echo $l_welcome;?> <?php echo strtoupper($_SESSION['user']);?>!</li>
+                <li><span class="btn text-primary mx-2"><i class="far fa-calendar-alt pr-2"></i><?php echo $l_date;?>:<span class="pl-2 date"></span></li>	
+                <li><span class="btn text-primary mr-2"><i class="far fa-clock pr-2"></i><?php echo $l_time;?>:<span class="pl-2 clock"></span></li>				
             </ul>	
 
 			<button type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"><span class="navbar-toggler-icon"></span></button>
 			<div id="navbarSupportedContent" class="collapse navbar-collapse">
 				<ul class="navbar-nav ml-auto">
-					<li><a href="logout.php" class="btn text-primary mr-2">Log out</a></li>				
+					<li><a href="logout.php" class="btn text-primary mr-2"><?php echo $l_exit;?></a></li>
+					<?php if ($_SESSION["lang"] == 'en'){
+						echo '<li><a class="btn text-primary mr-2" href="change.php?lang=ru">ru</a></li>';
+						} elseif ($_COOKIE["lang"] == 'en'){
+						echo '<li><a class="btn text-primary mr-2" href="change.php?lang=ru">ru</a></li>';
+						} else {
+						echo '<li><a class="btn text-primary mr-2" href="change.php?lang=en">en</a></li>';
+						}
+					?>
 				</ul>
 			</div>
 		</div>
@@ -39,7 +47,7 @@
             <a class="card my-card text-dark" href="today.php">
                 <img class="card-img-top" src="img/4.jpg" class="img-rounded" id="Panel_Image">
                <div class="card-body d-flex justify-content-center">
-                    <h3 class="card-title"></i>TODAY</h3>
+                    <h3 class="card-title"></i><?php echo $l_today;?></h3>
                </div>
             </a>                   
         </div>
@@ -48,7 +56,7 @@
             <a class="card my-card text-dark" href="projects.php">
                 <img class="card-img-top" src="img/5.jpg" class="img-rounded" id="Panel_Image">
                <div class="card-body d-flex justify-content-center">
-                    <h3 class="card-title"></i>PROJECTS</h3>
+                    <h3 class="card-title"></i><?php echo $l_projects;?></h3>
                </div>
             </a>                   
         </div>
@@ -57,7 +65,7 @@
             <a class="card my-card text-dark" href="calendar.php">
                 <img class="card-img-top" src="img/6.jpg" class="img-rounded" id="Panel_Image">
                <div class="card-body d-flex justify-content-center">
-                    <h3 class="card-title"></i>CALENDAR</h3>
+                    <h3 class="card-title"></i><?php echo $l_calendar;?></h3>
                </div>
             </a>                   
         </div>        
