@@ -21,9 +21,9 @@ In the "db" folder you will find the necessary file (kanban.sql) to create the k
 
 ## Screenshots
 
-### MAIN PAGE
-
 ![Home Page](/screenshots/main.jpg "Home Page")
+![Projects](/screenshots/projects.jpg "projects")
+![today](/screenshots/today.jpg "today")
 
 ## Built With
 
